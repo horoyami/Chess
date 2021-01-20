@@ -1,0 +1,61 @@
+module Board where
+
+import System.Console.ANSI
+
+import Figures
+
+makeEmptyBoard = [
+  [wr, wh, wb, wq, wk, wb, wh, wr],
+  [wp, wp, wp, wp, wp, wp, wp, wp],
+  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+  [bp, bp, bp, bp, bp, bp, bp, bp],
+  [bp, bh, bb, bq, bk, bb, bh, bp]
+  ]
+
+showCell :: Cell -> Int -> Int -> IO ()
+showCell cell n m = do
+  let bcolor = if (n+m) `mod` 2 == 0 then blackCell else whiteCell
+  setSGR [SetPaletteColor Background bcolor]
+
+  if cell == Empty then do
+    putStr "   "
+  else do
+    let (WithFigure figure color) = cell
+    setSGR [SetPaletteColor Foreground color]
+    putStr [' ', figure, ' ']
+
+showRow :: [Cell] -> Int -> IO ()
+showRow row n = do
+  let (x1 : x2 : x3 : x4: x5 : x6 : x7 : x8 : _) = row
+  showCell x1 n 1
+  showCell x2 n 2
+  showCell x3 n 3
+  showCell x4 n 4
+  showCell x5 n 5
+  showCell x6 n 6
+  showCell x7 n 7
+  showCell x8 n 8
+  setSGR [SetDefaultColor Background]
+  setSGR [SetDefaultColor Foreground]
+  putStr (" " ++ (show n) ++ "\n")
+
+showBoard :: [[Cell]] -> IO ()
+showBoard board = do
+  let (y1 : y2 : y3 : y4: y5 : y6 : y7 : y8 : _) = board
+  showRow y8 8
+  showRow y7 7
+  showRow y6 6
+  showRow y5 5
+  showRow y4 4
+  showRow y3 3
+  showRow y2 2
+  showRow y1 1
+  setSGR [SetDefaultColor Background]
+  setSGR [SetDefaultColor Foreground]
+  putStr " A  B  C  D  E  F  G  H \n"
+
+getFigure :: [[Cell]] -> Int -> Int -> Cell
+getFigure board x y = head (drop (x-1) (head (drop (y-1) board)))
