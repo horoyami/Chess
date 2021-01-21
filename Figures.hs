@@ -2,7 +2,7 @@ module Figures where
 
 import Data.Word
 
-data Cell = WithFigure Char Word8 | Empty deriving Eq
+data Cell = WithFigure {s :: Char, c :: Word8} | Empty deriving Eq
 
 blackCell = 159 :: Word8
 whiteCell = 255 :: Word8

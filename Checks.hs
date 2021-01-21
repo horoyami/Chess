@@ -22,3 +22,5 @@ isBlack _ = False
 isWhite :: Cell -> Bool
 isWhite Empty = False
 isWhite cell = not (isBlack cell)
+
+cellFilter (x, y) = (x, y) /= (-1, -1) && x >= 1 && x <= 8 && y >= 1 && y <=8
