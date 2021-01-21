@@ -29,7 +29,15 @@ movePawn board playerColor step x1 y1 x2 y2 = do
   else if playerColor == blackFigure && (x, y) == (0, -1) then moveBlackPawnOneStep board x1 y1
   else if playerColor == whiteFigure && (x, y) == (0, 2) && y1 == 2 then moveWhitePawnTwoStep board x1 y1
   else if playerColor == blackFigure && (x, y) == (0, -2) && y1 == 7 then moveBlackPawnTwoStep board x1 y1
+  else if playerColor == whiteFigure && ((x, y) == (1, 1) || (x, y) == (-1, 1)) then attackWhitePawn board x1 y1 x2 y2
+  else if playerColor == blackFigure && ((x, y) == (-1, -1) || (x, y) == (1, -1)) then attackBlackPawn board x1 y1 x2 y2
   else board
+
+attackWhitePawn :: [[Cell]] -> Int -> Int -> Int -> Int -> [[Cell]]
+attackWhitePawn board x1 y1 x2 y2 = if isBlack (getFigure board x2 y2) then changeBoard board x1 y1 x2 y2 else board
+
+attackBlackPawn :: [[Cell]] -> Int -> Int -> Int -> Int -> [[Cell]]
+attackBlackPawn board x1 y1 x2 y2 = if isWhite (getFigure board x2 y2) then changeBoard board x1 y1 x2 y2 else board
 
 moveWhitePawnTwoStep :: [[Cell]] -> Int -> Int -> [[Cell]]
 moveWhitePawnTwoStep board x1 y1 = if getFigure board x1 (y1+1) /= Empty || getFigure board x1 (y1+2) /= Empty

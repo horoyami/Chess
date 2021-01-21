@@ -28,3 +28,12 @@ wr = rook whiteFigure
 br = rook blackFigure
 wk = king whiteFigure
 bk = king blackFigure
+
+isBlack :: Cell -> Bool
+isBlack Empty = False
+isBlack (WithFigure _ 0) = True
+isBlack _ = False
+
+isWhite :: Cell -> Bool
+isWhite Empty = False
+isWhite cell = not (isBlack cell)

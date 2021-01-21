@@ -21,7 +21,7 @@ makeMove board player step = do
       newBoard <- move board step figureColor x1 y1 x2 y2
       let isBadMove = newBoard == board
       let text = if isBadMove then "Bad move!" else ("Player" ++ (show player) ++" made a move " ++ input)
-      reshowScreen newBoard text
+      reshowScreen newBoard ((show (x1, y1, x2, y2) ++ (show figureColor)))
       let nextPlayer = player `mod` 2 + 1
       makeMove newBoard (if isBadMove then player else nextPlayer) (if isBadMove then step else (step + 1))
   else do
