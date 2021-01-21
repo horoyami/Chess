@@ -3,6 +3,18 @@ module Board where
 import System.Console.ANSI
 
 import Figures
+import Properties
+
+--makeEmptyBoard = [
+--  [wr, wh, wb, wq, wk, wb, wh, wr],
+--  [wp, wp, wp, wp, wp, wp, wp, wp],
+--  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+--  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+--  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+--  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+--  [bp, bp, bp, bp, bp, bp, bp, bp],
+--  [bp, bh, bb, bq, bk, bb, bh, bp]
+--  ]
 
 makeEmptyBoard = [
   [wr, wh, wb, wq, wk, wb, wh, wr],
@@ -56,9 +68,6 @@ showBoard board = do
   setSGR [SetDefaultColor Background]
   setSGR [SetDefaultColor Foreground]
   putStr " A  B  C  D  E  F  G  H \n"
-
-getFigure :: [[Cell]] -> Int -> Int -> Cell
-getFigure board x y = head (drop (x-1) (head (drop (y-1) board)))
 
 changeBoard :: [[Cell]] -> Int -> Int -> Int -> Int -> [[Cell]]
 changeBoard board x1 y1 x2 y2 = newBoard where

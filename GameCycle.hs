@@ -5,6 +5,7 @@ import System.Console.ANSI
 import Checks
 import Board
 import Figures
+import Actions
 
 gameCycle :: IO ()
 gameCycle = do
