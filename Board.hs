@@ -59,3 +59,18 @@ showBoard board = do
 
 getFigure :: [[Cell]] -> Int -> Int -> Cell
 getFigure board x y = head (drop (x-1) (head (drop (y-1) board)))
+
+changeBoard :: [[Cell]] -> Int -> Int -> Int -> Int -> [[Cell]]
+changeBoard board x1 y1 x2 y2 = newBoard where
+  figure = getFigure board x1 y1
+  board1 = setFigure board x2 y2 figure
+  newBoard = setFigure board1 x1 y1 Empty
+
+setFigure :: [[Cell]] -> Int -> Int -> Cell -> [[Cell]]
+setFigure board x y cell = firstPart ++ [changeRow row x cell] ++ secondPart where
+  firstPart = take (y-1) board
+  row = head (drop (y-1) board)
+  secondPart = drop (y) board
+
+changeRow :: [Cell] -> Int -> Cell -> [Cell]
+changeRow row x cell = (take (x-1) row) ++ [cell] ++ (drop x row)

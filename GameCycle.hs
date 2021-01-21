@@ -3,22 +3,25 @@ module GameCycle where
 import System.Console.ANSI
 
 import Checks
+import Board
+import Figures
 
 gameCycle :: IO ()
 gameCycle = do
-  makeMove 1
+  makeMove makeEmptyBoard 1
 
-makeMove :: Int -> IO ()
-makeMove player = do
+makeMove :: [[Cell]] -> Int -> IO ()
+makeMove broad player = do
   putStrLn ("Player" ++ (show player) ++" makes a move (a1-h8):")
   input <- getLine
   let coords = parseNote input
   if coords /= Nothing then do
       let (Just (x1, y1, x2, y2)) = coords
---      isAvailableMove input
-      putStrLn ((show x1) ++ " " ++ (show y1) ++ " " ++ (show x2) ++ " " ++ (show y2) )
+      let figureColor = if player == 1 then whiteFigure else blackFigure
+      newBoard <- move broad 1 figureColor x1 y2 x2 y2
+      makeMove broad player
     else do
       cursorUp 3
       clearFromCursorToScreenEnd
       putStrLn "Bad input"
-      makeMove player
+      makeMove broad player

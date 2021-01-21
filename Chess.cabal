@@ -10,7 +10,8 @@ executable Chess
   main-is:             Main.hs
 
   build-depends:       base >=4.12 && <4.13,
-                       ansi-terminal
+                       ansi-terminal,
+                       mtl
 
   default-language:    Haskell2010
 
