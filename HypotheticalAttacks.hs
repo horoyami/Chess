@@ -20,6 +20,8 @@ getHypotheticalAttacks board x y =
   else if f == bp then getBlackPawnHypotheticalAttacks x y
   else if f == bk || f == wk then getKingHypotheticalAttacks x y
   else if f == wr || f == br then getRookHypotheticalAttacks board x y
+  else if f == wb || f == bb then getBishopHypotheticalAttacks board x y
+  else if f == wq || f == bq then getQueenHypotheticalAttacks board x y
   else []
   where
     f = getFigure board x y
@@ -53,3 +55,6 @@ getRookHypotheticalAttacks board x y = getHypotheticalStraightAttacks board x y
 
 getBishopHypotheticalAttacks :: Board -> Int -> Int -> [(Int, Int)]
 getBishopHypotheticalAttacks board x y = getHypotheticalDiagonalAttacks board x y
+
+getQueenHypotheticalAttacks :: Board -> Int -> Int -> [(Int, Int)]
+getQueenHypotheticalAttacks board x y = getHypotheticalDiagonalAttacks board x y ++ getHypotheticalStraightAttacks board x y

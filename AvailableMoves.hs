@@ -26,6 +26,8 @@ getAvailableMoves board x y =
   else if f == br then getAvailableMovesForRook board blackFigure x y
   else if f == wb then getAvailableMovesForBishop board whiteFigure x y
   else if f == bb then getAvailableMovesForBishop board blackFigure x y
+  else if f == wq then getAvailableMovesForQueen board whiteFigure x y
+  else if f == bq then getAvailableMovesForQueen board blackFigure x y
   else []
   where
     f = getFigure board x y
@@ -59,3 +61,6 @@ getAvailableMovesForRook board color x y = filter (\(x,y) -> isNotSame (getFigur
 
 getAvailableMovesForBishop :: Board -> Color -> Int -> Int -> [(Int, Int)]
 getAvailableMovesForBishop board color x y = filter (\(x,y) -> isNotSame (getFigure board x y) color) (getBishopHypotheticalAttacks board x y)
+
+getAvailableMovesForQueen :: Board -> Color -> Int -> Int -> [(Int, Int)]
+getAvailableMovesForQueen board color x y = filter (\(x,y) -> isNotSame (getFigure board x y) color) (getQueenHypotheticalAttacks board x y)
