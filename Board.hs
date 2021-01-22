@@ -18,10 +18,10 @@ import Figures
 makeEmptyBoard = [
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+  [Empty, Empty, Empty, Empty, Empty, Empty, bb, Empty],
+  [Empty, Empty, Empty, wb, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
-  [Empty, Empty, Empty, wr, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
-  [Empty, Empty, Empty, Empty, Empty, Empty, br, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
   ]

@@ -24,14 +24,20 @@ getHypotheticalAttacks board x y =
   where
     f = getFigure board x y
 
+getHypotheticalLineAttacks :: Board -> ((Int, Int) -> (Int, Int)) -> (Int, Int) -> [(Int, Int)]
+getHypotheticalLineAttacks board lambda (x, y) | y == 9 || x == 9 || y == 0 || x == 0 = []
+                                               | getFigure board x y == Empty = [(x, y)] ++ getHypotheticalLineAttacks board lambda (lambda (x, y))
+                                               | otherwise = [(x, y)]
+
 getHypotheticalStraightAttacks :: Board -> Int -> Int -> [(Int, Int)]
 getHypotheticalStraightAttacks board x y = filter cellFilter (
- (get board (\(x, y) -> (x, y+1)) (x, y+1)) ++ (get board (\(x, y) -> (x, y-1)) (x, y-1)) ++
- (get board (\(x, y) -> (x-1, y)) (x-1, y)) ++ (get board (\(x, y) -> (x+1, y)) (x+1, y)))
-   where
-     get board l (x, y) | y == 9 || x == 9 || y == 0 || x == 0 = []
-                        | getFigure board x y == Empty = [(x, y)] ++ get board l (l (x, y))
-                        | otherwise = [(x, y)]
+ (getHypotheticalLineAttacks board (\(x, y) -> (x, y+1)) (x, y+1)) ++ (getHypotheticalLineAttacks board (\(x, y) -> (x, y-1)) (x, y-1)) ++
+ (getHypotheticalLineAttacks board (\(x, y) -> (x-1, y)) (x-1, y)) ++ (getHypotheticalLineAttacks board (\(x, y) -> (x+1, y)) (x+1, y)))
+
+getHypotheticalDiagonalAttacks :: Board -> Int -> Int -> [(Int, Int)]
+getHypotheticalDiagonalAttacks board x y = filter cellFilter (
+ (getHypotheticalLineAttacks board (\(x, y) -> (x+1, y+1)) (x+1, y+1)) ++ (getHypotheticalLineAttacks board (\(x, y) -> (x-1, y-1)) (x-1, y-1)) ++
+ (getHypotheticalLineAttacks board (\(x, y) -> (x-1, y+1)) (x-1, y+1)) ++ (getHypotheticalLineAttacks board (\(x, y) -> (x+1, y-1)) (x+1, y-1)))
 
 getWhitePawnHypotheticalAttacks :: Int -> Int -> [(Int, Int)]
 getWhitePawnHypotheticalAttacks x y = filter cellFilter [(x+1, y+1), (x-1, y+1)]
@@ -44,3 +50,6 @@ getKingHypotheticalAttacks x y = filter cellFilter [(x, y+1), (x+1, y+1), (x+1, 
 
 getRookHypotheticalAttacks :: Board -> Int -> Int -> [(Int, Int)]
 getRookHypotheticalAttacks board x y = getHypotheticalStraightAttacks board x y
+
+getBishopHypotheticalAttacks :: Board -> Int -> Int -> [(Int, Int)]
+getBishopHypotheticalAttacks board x y = getHypotheticalDiagonalAttacks board x y
