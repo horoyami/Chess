@@ -28,3 +28,6 @@ wr = rook whiteFigure
 br = rook blackFigure
 wk = king whiteFigure
 bk = king blackFigure
+
+getFigure :: [[Cell]] -> Int -> Int -> Cell
+getFigure board x y = head (if drop (x-1) (head (drop (y-1) board)) == [] then error ((show x) ++ " " ++ (show y) ++ " ") else drop (x-1) (head (drop (y-1) board)))

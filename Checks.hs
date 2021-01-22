@@ -1,6 +1,7 @@
 module Checks where
 
 import Data.Char
+import Data.Word
 
 import Figures
 
@@ -23,4 +24,9 @@ isWhite :: Cell -> Bool
 isWhite Empty = False
 isWhite cell = not (isBlack cell)
 
-cellFilter (x, y) = (x, y) /= (-1, -1) && x >= 1 && x <= 8 && y >= 1 && y <=8
+isNotSame :: Cell -> Word8 -> Bool
+isNotSame Empty _ = True
+isNotSame cell color = c cell == color
+
+cellFilter :: (Int, Int) -> Bool
+cellFilter (x, y) = x >= 1 && x <= 8 && y >= 1 && y <= 8

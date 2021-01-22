@@ -3,7 +3,6 @@ module Board where
 import System.Console.ANSI
 
 import Figures
-import Properties
 
 --makeEmptyBoard = [
 --  [wr, wh, wb, wq, wk, wb, wh, wr],
@@ -18,12 +17,12 @@ import Properties
 
 makeEmptyBoard = [
   [wr, wh, wb, wq, wk, wb, wh, wr],
-  [wp, wp, wp, wp, wp, wp, wp, wp],
+  [wp, wp, wp, wp, Empty, wp, wp, wp],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
-  [bp, bp, bp, bp, bp, bp, bp, bp],
+  [bp, bp, bp, bp, Empty, bp, bp, bp],
   [bp, bh, bb, bq, bk, bb, bh, bp]
   ]
 
