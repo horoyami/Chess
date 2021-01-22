@@ -18,7 +18,7 @@ parseNote (s1 : s2 : '-' : s3 : s4 : []) | check s1 s2 s3 s4 = Just (letterToCoo
 parseNote _ = Nothing
 
 move :: Board -> Color -> Int -> Int -> Int -> Int -> Board
-move board color x1 y1 x2 y2 | (x2, y2) `elem` getAvailableMoves board color x1 y1 = changeBoard board x1 y1 x2 y2
+move board color x1 y1 x2 y2 | c (getFigure board x1 y1) == color && (x2, y2) `elem` getAvailableMoves board x1 y1 = changeBoard board x1 y1 x2 y2
                              | otherwise = board
 
 getComment :: Status -> Bool -> Int -> String -> String

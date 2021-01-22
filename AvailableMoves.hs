@@ -13,15 +13,17 @@ getAllAvailableMoves board color = nub (get board color 1 1) where
                       | otherwise = availableMoves ++ get board color (x+1) y
     where
       f = getFigure board x y
-      availableMoves = getAvailableMoves board color x y
+      availableMoves = if f /= Empty && c f == color then getAvailableMoves board x y else []
 
-getAvailableMoves :: Board -> Color -> Int -> Int -> [(Int, Int)]
-getAvailableMoves board color x y =
+getAvailableMoves :: Board  -> Int -> Int -> [(Int, Int)]
+getAvailableMoves board x y =
   if f == Empty then []
-  else if f == wp && color == whiteFigure then getAvailableMovesForWhitePawn board x y
-  else if f == bp && color == blackFigure  then getAvailableMovesForBlackPawn board x y
-  else if f == bk && color == blackFigure  then getAvailableMovesForKing board blackFigure x y
-  else if f == wk && color == whiteFigure  then getAvailableMovesForKing board whiteFigure x y
+  else if f == wp then getAvailableMovesForWhitePawn board x y
+  else if f == bp then getAvailableMovesForBlackPawn board x y
+  else if f == bk then getAvailableMovesForKing board blackFigure x y
+  else if f == wk then getAvailableMovesForKing board whiteFigure x y
+  else if f == wr then getAvailableMovesForRook board whiteFigure x y
+  else if f == br then getAvailableMovesForRook board blackFigure x y
   else []
   where
     f = getFigure board x y
@@ -49,3 +51,6 @@ getAvailableMovesForKing board color x y =
 isAvailableKingMove :: Board -> Color -> Int -> Int -> Int -> Int -> Bool
 isAvailableKingMove board color x1 y1 x2 y2 = isNotSame (getFigure board x2 y2) color &&
   not ((x2, y2) `elem` (getAllHypotheticalAttacks (changeBoard board x1 y1 x2 y2) (getOppositeColor color)))
+
+getAvailableMovesForRook :: Board -> Color -> Int -> Int -> [(Int, Int)]
+getAvailableMovesForRook board color x y = filter (\(x,y) -> isNotSame (getFigure board x y) color) (getRookHypotheticalAttacks board x y)

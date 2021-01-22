@@ -17,7 +17,7 @@ makeMove board player = do
 
       let newBoard = move board figureColor x1 y1 x2 y2
 
-      let status = getKingStatus newBoard (getOppositeColor figureColor)
+      let status = Proceed --getKingStatus newBoard (getOppositeColor figureColor)
       let isBadMove = newBoard == board
       let text = getComment status isBadMove player input
       let nextPlayer = if isBadMove then player else player `mod` 2 + 1
