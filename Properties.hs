@@ -55,3 +55,21 @@ getAllAvailableMoves board color = nub (get board color 1 1) where
 isAvailableKingMove :: [[Cell]] -> Word8 -> Int -> Int -> Int -> Int -> Bool
 isAvailableKingMove board anticolor x1 y1 x2 y2 =
   isNotSame (getFigure board x2 y2) anticolor && not ((x2, y2) `elem` (getAllAvailableMoves (changeBoard board x1 y1 x2 y2) anticolor))
+
+findKing :: [[Cell]] -> Word8 -> (Int, Int)
+findKing board color = get board color 1 1 where
+  get board color x y | getFigure board x y == king color = (x, y)
+                      | x == 8 && y == 8 = (-1, -1)
+                      | x == 8 = get board color 1 (y+1)
+                      | otherwise = get board color (x+1) y
+
+getKingStatus :: [[Cell]] -> Word8 -> Status
+getKingStatus board color | isBeaten && availableMoves == [] = Checkmate
+                          | allAvailableMoves == [] = Stalemate
+                          | isBeaten = Check
+                          | otherwise = Proceed
+    where
+  king = findKing board color
+  availableMoves = getAvailableMovesForKing board (fst king) (snd king) (getOppositeColor color)
+  allAvailableMoves = getAllAvailableMoves board color
+  isBeaten = king `elem` (getAllAvailableMoves board (getOppositeColor color))

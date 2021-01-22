@@ -29,5 +29,8 @@ br = rook blackFigure
 wk = king whiteFigure
 bk = king blackFigure
 
+getOppositeColor :: Word8 -> Word8
+getOppositeColor color = if color == blackFigure then whiteFigure else blackFigure
+
 getFigure :: [[Cell]] -> Int -> Int -> Cell
 getFigure board x y = head (if drop (x-1) (head (drop (y-1) board)) == [] then error ((show x) ++ " " ++ (show y) ++ " ") else drop (x-1) (head (drop (y-1) board)))

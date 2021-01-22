@@ -6,10 +6,18 @@ import Checks
 import Board
 import Figures
 import Actions
+import Properties
 
 gameCycle :: IO ()
 gameCycle = do
   makeMove makeEmptyBoard 1 1
+
+getComment :: Status -> Bool -> Int -> String -> String
+getComment _ True _ _ = "Bad move!"
+getComment Checkmate _ player _ = "Player" ++ (show player) ++ " is won!!!!"
+getComment Stalemate _ _ _ = "That is Stalemate"
+getComment Check _ player input = "Check!! Player" ++ (show player) ++" made a move " ++ input
+getComment Proceed _ player input = "Player" ++ (show player) ++" made a move " ++ input
 
 makeMove :: [[Cell]] -> Int -> Int -> IO ()
 makeMove board player step = do
@@ -20,11 +28,13 @@ makeMove board player step = do
       let (Just (x1, y1, x2, y2)) = coords
       let figureColor = if player == 1 then whiteFigure else blackFigure
       newBoard <- move board step figureColor x1 y1 x2 y2
+      let status = getKingStatus newBoard (getOppositeColor figureColor)
       let isBadMove = newBoard == board
-      let text = if isBadMove then "Bad move!" else ("Player" ++ (show player) ++" made a move " ++ input)
-      reshowScreen newBoard ((show (x1, y1, x2, y2) ++ (show figureColor)))
-      let nextPlayer = player `mod` 2 + 1
-      makeMove newBoard (if isBadMove then player else nextPlayer) (if isBadMove then step else (step + 1))
+      let text = getComment status isBadMove player input
+      reshowScreen newBoard text
+      if (status == Checkmate || status == Stalemate) then return () else do
+        let nextPlayer = player `mod` 2 + 1
+        makeMove newBoard (if isBadMove then player else nextPlayer) (if isBadMove then step else (step + 1))
   else do
       cursorUp 3
       clearFromCursorToScreenEnd

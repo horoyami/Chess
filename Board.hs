@@ -16,15 +16,17 @@ import Figures
 --  ]
 
 makeEmptyBoard = [
-  [wr, wh, wb, wq, wk, wb, wh, wr],
-  [wp, wp, wp, wp, Empty, wp, wp, wp],
+  [Empty, Empty, Empty, wp, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
-  [bp, bp, bp, bp, Empty, bp, bp, bp],
-  [bp, bh, bb, bq, bk, bb, bh, bp]
+  [Empty, Empty, Empty, Empty, Empty, wp, wp, Empty],
+  [Empty, Empty, Empty, Empty, Empty, wp, Empty, wp],
+  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, bk]
   ]
+
+data Status = Checkmate | Check | Stalemate | Proceed deriving Eq
 
 showCell :: Cell -> Int -> Int -> IO ()
 showCell cell n m = do
