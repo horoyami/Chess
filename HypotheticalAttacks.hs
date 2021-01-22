@@ -22,6 +22,7 @@ getHypotheticalAttacks board x y =
   else if f == wr || f == br then getRookHypotheticalAttacks board x y
   else if f == wb || f == bb then getBishopHypotheticalAttacks board x y
   else if f == wq || f == bq then getQueenHypotheticalAttacks board x y
+  else if f == wh || f == bh then getHorseHypotheticalAttacks x y
   else []
   where
     f = getFigure board x y
@@ -58,3 +59,6 @@ getBishopHypotheticalAttacks board x y = getHypotheticalDiagonalAttacks board x 
 
 getQueenHypotheticalAttacks :: Board -> Int -> Int -> [(Int, Int)]
 getQueenHypotheticalAttacks board x y = getHypotheticalDiagonalAttacks board x y ++ getHypotheticalStraightAttacks board x y
+
+getHorseHypotheticalAttacks :: Int -> Int -> [(Int, Int)]
+getHorseHypotheticalAttacks x y = filter cellFilter [(x+1, y+2), (x-1, y+2), (x+2, y+1), (x+2, y-1), (x-1, y-2), (x+1, y-2), (x-2, y+1), (x-2, y-1)]
