@@ -40,7 +40,7 @@ showCell cell n m = do
     setSGR [SetPaletteColor Foreground color]
     putStr [' ', figure, ' ']
 
-showRow :: [Cell] -> Int -> IO ()
+showRow :: Row -> Int -> IO ()
 showRow row n = do
   let (x1 : x2 : x3 : x4: x5 : x6 : x7 : x8 : _) = row
   showCell x1 n 1
@@ -55,7 +55,7 @@ showRow row n = do
   setSGR [SetDefaultColor Foreground]
   putStr (" " ++ (show n) ++ "\n")
 
-showBoard :: [[Cell]] -> IO ()
+showBoard :: Board -> IO ()
 showBoard board = do
   let (y1 : y2 : y3 : y4: y5 : y6 : y7 : y8 : _) = board
   showRow y8 8
@@ -70,17 +70,17 @@ showBoard board = do
   setSGR [SetDefaultColor Foreground]
   putStr " A  B  C  D  E  F  G  H \n"
 
-changeBoard :: [[Cell]] -> Int -> Int -> Int -> Int -> [[Cell]]
+changeBoard :: Board -> Int -> Int -> Int -> Int -> Board
 changeBoard board x1 y1 x2 y2 = newBoard where
   figure = getFigure board x1 y1
   board1 = setFigure board x2 y2 figure
   newBoard = setFigure board1 x1 y1 Empty
 
-setFigure :: [[Cell]] -> Int -> Int -> Cell -> [[Cell]]
+setFigure :: Board -> Int -> Int -> Cell -> Board
 setFigure board x y cell = firstPart ++ [changeRow row x cell] ++ secondPart where
   firstPart = take (y-1) board
   row = head (drop (y-1) board)
   secondPart = drop (y) board
 
-changeRow :: [Cell] -> Int -> Cell -> [Cell]
+changeRow :: Row -> Int -> Cell -> Row
 changeRow row x cell = (take (x-1) row) ++ [cell] ++ (drop x row)

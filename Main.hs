@@ -12,5 +12,5 @@ main = do
   showBoard makeEmptyBoard
   putStr "\n"
   putStrLn "Welcome to Chess!!!"
-  gameCycle
+  makeMove makeEmptyBoard 1
 

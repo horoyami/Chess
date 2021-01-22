@@ -17,7 +17,7 @@ executable Chess
 
   other-modules:       Figures
                        Board
-                       Checks
+                       HypotheticalAttacks
+                       AvailableMoves
+                       GameTools
                        GameCycle
-                       Properties
-                       Actions
