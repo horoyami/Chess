@@ -22,7 +22,7 @@ makeEmptyBoard = [
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, wp, wp, Empty],
-  [Empty, Empty, Empty, Empty, Empty, wp, Empty, wp],
+  [Empty, Empty, Empty, Empty, Empty, wp, wp, wp],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, bk]
   ]
 
