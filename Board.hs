@@ -4,26 +4,15 @@ import System.Console.ANSI
 
 import Figures
 
---makeEmptyBoard = [
---  [wr, wh, wb, wq, wk, wb, wh, wr],
---  [wp, wp, wp, wp, wp, wp, wp, wp],
---  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
---  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
---  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
---  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
---  [bp, bp, bp, bp, bp, bp, bp, bp],
---  [bp, bh, bb, bq, bk, bb, bh, bp]
---  ]
-
 makeEmptyBoard = [
-  [wr, Empty, Empty, Empty, wk, Empty, Empty, wr],
+  [wr, wh, wb, wq, wk, wb, wh, wr],
+  [wp, wp, wp, wp, wp, wp, wp, wp],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
-  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
-  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
-  [Empty, Empty, Empty, Empty, bk, Empty, Empty, Empty]
+  [bp, bp, bp, bp, bp, bp, bp, bp],
+  [bp, bh, bb, bq, bk, bb, bh, bp]
   ]
 
 data Status = Checkmate | Check | Stalemate | Proceed deriving (Show, Eq)
