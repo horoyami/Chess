@@ -16,14 +16,14 @@ import Figures
 --  ]
 
 makeEmptyBoard = [
-  [Empty, Empty, Empty, wk, Empty, Empty, Empty, Empty],
-  [Empty, Empty, Empty, wr, Empty, Empty, Empty, Empty],
-  [Empty, Empty, Empty, Empty, Empty, bb, Empty, Empty],
+  [wr, Empty, Empty, Empty, wk, Empty, Empty, wr],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
-  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty]
+  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+  [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+  [Empty, Empty, Empty, Empty, bk, Empty, Empty, Empty]
   ]
 
 data Status = Checkmate | Check | Stalemate | Proceed deriving (Show, Eq)
@@ -36,7 +36,7 @@ showCell cell n m = do
   if cell == Empty then do
     putStr "   "
   else do
-    let (WithFigure figure color) = cell
+    let (WithFigure figure color _) = cell
     setSGR [SetPaletteColor Foreground color]
     putStr [' ', figure, ' ']
 
@@ -72,7 +72,7 @@ showBoard board = do
 
 changeBoard :: Board -> Int -> Int -> Int -> Int -> Board
 changeBoard board x1 y1 x2 y2 = newBoard where
-  figure = getFigure board x1 y1
+  figure = (getFigure board x1 y1) {m = True}
   board1 = setFigure board x2 y2 figure
   newBoard = setFigure board1 x1 y1 Empty
 

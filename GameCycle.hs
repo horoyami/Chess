@@ -8,16 +8,15 @@ import GameTools
 
 makeMove :: Board -> Int -> IO ()
 makeMove board player = do
-  putStrLn ("Player" ++ (show player) ++" makes a move (a1-h8):")
+  putStrLn ("Player" ++ (show player) ++" makes a move (a1-h8),(0-0-0),(0-0):")
   input <- getLine
   let coords = parseNote input
-  if coords /= Nothing then do
-      let (Just (x1, y1, x2, y2)) = coords
+  if coords /= Nothing || isCastling input then do
       let figureColor = if player == 1 then whiteFigure else blackFigure
 
-      let newBoard = move board figureColor x1 y1 x2 y2
+      let newBoard = if isCastling input then castling board figureColor input else move board figureColor coords
 
-      let status = Proceed --getKingStatus newBoard (getOppositeColor figureColor)
+      let status = getKingStatus newBoard (getOppositeColor figureColor)
       let isBadMove = newBoard == board
       let text = getComment status isBadMove player input
       let nextPlayer = if isBadMove then player else player `mod` 2 + 1
