@@ -18,8 +18,12 @@ parseNote (s1 : s2 : '-' : s3 : s4 : []) | check s1 s2 s3 s4 = Just (letterToCoo
 parseNote _ = Nothing
 
 move :: Board -> Color -> Int -> Int -> Int -> Int -> Board
-move board color x1 y1 x2 y2 | c (getFigure board x1 y1) == color && (x2, y2) `elem` getAvailableMoves board x1 y1 = changeBoard board x1 y1 x2 y2
+move board color x1 y1 x2 y2 | canMove && not isRiskForKing = changeBoard board x1 y1 x2 y2
                              | otherwise = board
+  where
+    canMove = c (getFigure board x1 y1) == color && (x2, y2) `elem` getAvailableMoves board x1 y1
+    newBoard = changeBoard board x1 y1 x2 y2
+    isRiskForKing = getKingStatus newBoard color == Checkmate || getKingStatus newBoard color == Check
 
 getComment :: Status -> Bool -> Int -> String -> String
 getComment _ True _ _ = "Bad move!"
