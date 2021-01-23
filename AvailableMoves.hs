@@ -55,8 +55,8 @@ getAvailableMovesForKing board color x y =
   filter (\(x2, y2) -> isAvailableKingMove board color x y x2 y2) (getKingHypotheticalAttacks x y)
 
 isAvailableKingMove :: Board -> Color -> Int -> Int -> Int -> Int -> Bool
-isAvailableKingMove board color x1 y1 x2 y2 = isNotSame (getFigure board x2 y2) color
-  --not ((x2, y2) `elem` (getAllHypotheticalAttacks (changeBoard board x1 y1 x2 y2) (getOppositeColor color)))
+isAvailableKingMove board color x1 y1 x2 y2 = isNotSame (getFigure board x2 y2) color &&
+  not ((x2, y2) `elem` (getAllHypotheticalAttacks (changeBoard board x1 y1 x2 y2) (getOppositeColor color)))
 
 getAvailableMovesForRook :: Board -> Color -> Int -> Int -> [(Int, Int)]
 getAvailableMovesForRook board color x y = filter (\(x,y) -> isNotSame (getFigure board x y) color) (getRookHypotheticalAttacks board x y)

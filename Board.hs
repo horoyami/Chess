@@ -12,7 +12,7 @@ makeEmptyBoard = [
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
   [bp, bp, bp, bp, bp, bp, bp, bp],
-  [bp, bh, bb, bq, bk, bb, bh, bp]
+  [br, bh, bb, bq, bk, bb, bh, br]
   ]
 
 data Status = Checkmate | Check | Stalemate | Proceed deriving (Show, Eq)

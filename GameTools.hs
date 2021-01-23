@@ -21,7 +21,8 @@ move :: Board -> Color -> Maybe(Int, Int, Int, Int) -> Board
 move board color (Just (x1, y1, x2, y2)) | canMove && not isRiskForKing = changeBoard board x1 y1 x2 y2
                                          | otherwise = board
   where
-    canMove = c (getFigure board x1 y1) == color && (x2, y2) `elem` getAvailableMoves board x1 y1
+    f = getFigure board x1 y1
+    canMove = f /= Empty && c f == color && (x2, y2) `elem` getAvailableMoves board x1 y1
     newBoard = changeBoard board x1 y1 x2 y2
     isRiskForKing = getKingStatus newBoard color == Checkmate || getKingStatus newBoard color == Check
 move board _ _ = board
@@ -47,7 +48,7 @@ castling board color com = if com == "0-0-0" then leftCastlingBoard else rightCa
 
 getComment :: Status -> Bool -> Int -> String -> String
 getComment _ True _ _ = "Bad move!"
-getComment Checkmate _ player _ = "Player" ++ (show player) ++ " is won!!!!"
+getComment Checkmate _ player _ = "Checkmate!!! Player" ++ (show player) ++ " is won!!!!"
 getComment Stalemate _ _ _ = "That is Stalemate"
 getComment Check _ player input = "Check!! Player" ++ (show player) ++" made a move " ++ input
 getComment Proceed _ player input = "Player" ++ (show player) ++" made a move " ++ input
@@ -60,7 +61,7 @@ findKing board color = get board color 1 1 where
                       | otherwise = get board color (x+1) y
 
 getKingStatus :: Board -> Color -> Status
-getKingStatus board color | isBeaten && availableMoves == [] = Checkmate
+getKingStatus board color | isBeaten && not (isParried board color 1 1) = Checkmate
                           | allAvailableMoves == [] = Stalemate
                           | isBeaten = Check
                           | otherwise = Proceed
@@ -68,7 +69,22 @@ getKingStatus board color | isBeaten && availableMoves == [] = Checkmate
     king = findKing board color
     availableMoves = getAvailableMovesForKing board color (fst king) (snd king)
     allAvailableMoves = getAllAvailableMoves board color
-    isBeaten = king `elem` (getAllAvailableMoves board (getOppositeColor color))
+    isBeaten = isKingBeaten board color
 
 isCastling :: String -> Bool
 isCastling s = s == "0-0" || s == "0-0-0"
+
+isKingBeaten :: Board -> Color -> Bool
+isKingBeaten board color = (findKing board color) `elem` (getAllAvailableMoves board (getOppositeColor color))
+
+
+isParried board color x y | isOur && isHero = True
+                          | x == 8 && y == 8 = False
+                          | x == 8 = isParried board color 1 (y+1)
+                          | otherwise = isParried board color (x+1) y
+  where
+    f = getFigure board x y
+    isOur = f /= Empty && c f == color
+    availableMoves = getAvailableMoves board x y
+    check (x2, y2) = not (isKingBeaten (changeBoard board x y x2 y2) color)
+    isHero = not (null (filter check availableMoves))
